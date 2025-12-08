@@ -69,12 +69,17 @@ export default function ShortenPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-      <nav className="bg-white dark:bg-gray-800 shadow-sm">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-900">
+      <nav className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg shadow-lg border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <Link href="/" className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-              SnowShare
+            <Link href="/" className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+                <span className="text-white text-xl font-bold">P</span>
+              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+                PixelShare
+              </span>
             </Link>
           </div>
         </div>
@@ -82,48 +87,48 @@ export default function ShortenPage() {
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Willkommen bei SnowShare
+          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-2">
+            Share a Link
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
-            Teilen Sie Ihre Dateien, Ihren Code und Ihre URLs sicher und einfach.
+            Create a shareable link for any URL
           </p>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex justify-center mb-8 space-x-2">
+        <div className="flex justify-center mb-8 space-x-3">
           <Link 
             href="/shorten"
-            className="px-6 py-3 rounded-lg font-semibold transition-colors bg-indigo-600 text-white"
+            className="px-6 py-3 rounded-xl font-semibold transition-all duration-200 bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg hover:shadow-xl"
           >
-            LinkShare
+            🔗 LinkShare
           </Link>
           <Link 
             href="/snippet"
-            className="px-6 py-3 rounded-lg font-semibold transition-colors bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700"
+            className="px-6 py-3 rounded-xl font-semibold transition-all duration-200 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 dark:hover:from-gray-700 dark:hover:to-gray-700 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700"
           >
-            PasteShare
+            📝 PasteShare
           </Link>
           <Link 
             href="/upload"
-            className="px-6 py-3 rounded-lg font-semibold transition-colors bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700"
+            className="px-6 py-3 rounded-xl font-semibold transition-all duration-200 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 dark:hover:from-gray-700 dark:hover:to-gray-700 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700"
           >
-            FileShare
+            📁 FileShare
           </Link>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 border border-gray-200 dark:border-gray-700">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            Einen Link teilen
+            Share a Link
           </h2>
           <p className="text-gray-600 dark:text-gray-300 mb-6">
-            Erstellen Sie einen teilbaren Link für jede URL
+            Create a shareable link for any URL
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="url" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Zu teilende URL *
+                URL to Share *
               </label>
               <input
                 type="url"
@@ -131,18 +136,18 @@ export default function ShortenPage() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 required
-                placeholder="https://beispiel.com/meine-seite"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white"
+                placeholder="https://example.com/my-page"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:text-white shadow-sm"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                Gültigkeitsdauer
+                Expiration
               </label>
               
               <div className="space-y-3">
-                <label className="flex items-start cursor-pointer">
+                <label className="flex items-start cursor-pointer p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors">
                   <input
                     type="radio"
                     value="never"
@@ -151,14 +156,14 @@ export default function ShortenPage() {
                     className="mt-1 mr-3"
                   />
                   <div>
-                    <div className="font-medium text-gray-900 dark:text-white">Kein Ablauf</div>
+                    <div className="font-semibold text-gray-900 dark:text-white">No Expiration</div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">
-                      Dieser Link bleibt unbegrenzt aktiv
+                      This link will remain active indefinitely
                     </div>
                   </div>
                 </label>
 
-                <label className="flex items-start cursor-pointer">
+                <label className="flex items-start cursor-pointer p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors">
                   <input
                     type="radio"
                     value="custom"
@@ -175,12 +180,12 @@ export default function ShortenPage() {
                         value={expirationDays}
                         onChange={(e) => setExpirationDays(parseInt(e.target.value))}
                         disabled={expiresIn !== "custom"}
-                        className="w-20 px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                        className="w-20 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white disabled:opacity-50"
                       />
-                      <span className="font-medium text-gray-900 dark:text-white">Tage</span>
+                      <span className="font-semibold text-gray-900 dark:text-white">Days</span>
                     </div>
                     <div className="text-sm text-gray-600 dark:text-gray-400">
-                      Dieser Link wird in {expirationDays === 1 ? "1 Tag" : `${expirationDays} ${expirationDays === 30 ? "Monat" : "Tagen"}`} ablaufen
+                      This link will expire in {expirationDays === 1 ? "1 day" : `${expirationDays} days`}
                     </div>
                   </div>
                 </label>
@@ -192,19 +197,20 @@ export default function ShortenPage() {
               <button
                 type="button"
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium mb-3"
+                className="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 hover:text-purple-600 dark:hover:text-purple-400 font-semibold transition-colors"
               >
-                {showAdvanced ? "▼" : "▶"} Erweiterte Einstellungen (optional)
+                <span>{showAdvanced ? "▼" : "▶"}</span>
+                <span>Advanced Settings (optional)</span>
               </button>
 
               {showAdvanced && (
-                <div className="space-y-4 border-t border-gray-200 dark:border-gray-700 pt-4">
+                <div className="space-y-4 mt-4 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-gray-700 dark:to-gray-700 rounded-xl border border-indigo-100 dark:border-gray-600">
                   <div>
                     <label htmlFor="customSlug" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Benutzerdefinierter Link
+                      Custom Link
                     </label>
                     <div className="flex items-center">
-                      <span className="text-sm text-gray-600 dark:text-gray-400 mr-2">
+                      <span className="text-sm text-gray-600 dark:text-gray-400 mr-2 font-mono">
                         {typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/l/
                       </span>
                       <input
@@ -212,27 +218,27 @@ export default function ShortenPage() {
                         id="customSlug"
                         value={customSlug}
                         onChange={(e) => setCustomSlug(e.target.value.replace(/[^a-zA-Z0-9-_]/g, ''))}
-                        placeholder="mein-benutzerdefinierter-link"
+                        placeholder="my-custom-link"
                         pattern="[a-zA-Z0-9-_]+"
-                        className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white"
+                        className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                       />
                     </div>
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      Nur Buchstaben, Zahlen, Bindestriche und Unterstriche
+                      Only letters, numbers, hyphens, and underscores
                     </p>
                   </div>
 
                   <div>
                     <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Passwortschutz
+                      Password Protection
                     </label>
                     <input
                       type="password"
                       id="password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Optional - leer lassen für freien Zugang"
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white"
+                      placeholder="Optional - leave empty for open access"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                     />
                   </div>
                 </div>
@@ -240,7 +246,7 @@ export default function ShortenPage() {
             </div>
 
             {error && (
-              <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg">
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-3 rounded-xl">
                 {error}
               </div>
             )}
@@ -248,37 +254,37 @@ export default function ShortenPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white py-4 px-6 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
-              {loading ? "Wird erstellt..." : "Geteilten Link erstellen"}
+              {loading ? "Creating..." : "Create Shared Link"}
             </button>
           </form>
 
           {result && (
-            <div className="mt-8 p-6 bg-green-50 dark:bg-green-900/20 rounded-lg">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                Erfolg! Ihr kurzer Link:
+            <div className="mt-8 p-6 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl border border-green-200 dark:border-green-800">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+                Success! Your short link:
               </h3>
               <div className="flex items-center space-x-2 mb-4">
                 <input
                   type="text"
                   value={result.shortUrl}
                   readOnly
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-white"
+                  className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-white font-mono text-sm"
                 />
                 <button
                   onClick={() => navigator.clipboard.writeText(result.shortUrl)}
-                  className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                  className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
                 >
-                  Kopieren
+                  Copy
                 </button>
               </div>
               {qrCode && (
-                <div className="mt-4">
-                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <div className="mt-6 p-4 bg-white dark:bg-gray-800 rounded-lg">
+                  <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                     QR Code:
                   </h4>
-                  <img src={qrCode} alt="QR Code" className="mx-auto" />
+                  <img src={qrCode} alt="QR Code" className="mx-auto rounded-lg shadow-lg" />
                 </div>
               )}
             </div>
@@ -286,21 +292,21 @@ export default function ShortenPage() {
         </div>
       </main>
 
-      <footer className="bg-white dark:bg-gray-800 mt-16 py-8">
+      <footer className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-lg mt-16 py-8 border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-gray-600 dark:text-gray-400 mb-2">
-            Made with ❤️ by Romain
+            Made with ❤️ by <span className="font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">Leopixel</span>
           </p>
           <div className="flex justify-center space-x-4 mb-2">
-            <a href="https://github.com" className="text-indigo-600 dark:text-indigo-400 hover:underline">
+            <a href="https://github.com/Leopixel1/PixelShare" className="text-indigo-600 dark:text-indigo-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
               GitHub
             </a>
-            <a href="/license" className="text-indigo-600 dark:text-indigo-400 hover:underline">
+            <a href="/license" className="text-indigo-600 dark:text-indigo-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
               License
             </a>
           </div>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            © 2025 SnowShare. Alle Rechte vorbehalten.
+            © 2025 PixelShare. All rights reserved.
           </p>
         </div>
       </footer>
