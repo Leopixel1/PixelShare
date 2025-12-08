@@ -85,7 +85,7 @@ export default function SnippetPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <Link href="/" className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-              SnowShare
+              PixelShare
             </Link>
           </div>
         </div>
@@ -94,10 +94,10 @@ export default function SnippetPage() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Willkommen bei SnowShare
+            Willkommen bei PixelShare
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
-            Teilen Sie Ihre Dateien, Ihren Code und Ihre URLs sicher und einfach.
+            Share your files, code, and URLs securely and easily
           </p>
         </div>
 
@@ -323,7 +323,7 @@ export default function SnippetPage() {
             </a>
           </div>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            © 2025 SnowShare. Alle Rechte vorbehalten.
+            © 2025 PixelShare. Alle Rechte vorbehalten.
           </p>
         </div>
       </footer>
