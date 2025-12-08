@@ -7,6 +7,7 @@ import { z } from "zod";
 const urlSchema = z.object({
   originalUrl: z.string().url(),
   title: z.string().optional(),
+  customSlug: z.string().optional(),
   password: z.string().optional(),
   expiresAt: z.string().optional(),
 });
@@ -14,9 +15,24 @@ const urlSchema = z.object({
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { originalUrl, title, password, expiresAt } = urlSchema.parse(body);
+    const { originalUrl, title, customSlug, password, expiresAt } = urlSchema.parse(body);
 
-    const shortCode = nanoid(8);
+    // Use custom slug if provided, otherwise generate random code
+    const shortCode = customSlug || nanoid(8);
+    
+    // Check if custom slug already exists
+    if (customSlug) {
+      const existing = await prisma.url.findUnique({
+        where: { shortCode: customSlug },
+      });
+      if (existing) {
+        return NextResponse.json(
+          { success: false, error: "Custom link already exists" },
+          { status: 400 }
+        );
+      }
+    }
+
     const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
 
     const url = await prisma.url.create({

@@ -9,6 +9,7 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File;
+    const customSlug = formData.get("customSlug") as string | null;
     const password = formData.get("password") as string | null;
     const expiresAt = formData.get("expiresAt") as string | null;
 
@@ -22,7 +23,22 @@ export async function POST(req: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const shortCode = nanoid(8);
+    // Use custom slug if provided, otherwise generate random code
+    const shortCode = customSlug || nanoid(8);
+    
+    // Check if custom slug already exists
+    if (customSlug) {
+      const existing = await prisma.file.findUnique({
+        where: { shortCode: customSlug },
+      });
+      if (existing) {
+        return NextResponse.json(
+          { success: false, error: "Custom link already exists" },
+          { status: 400 }
+        );
+      }
+    }
+
     const fileExtension = path.extname(file.name);
     const fileName = `${shortCode}${fileExtension}`;
     const uploadsDir = path.join(process.cwd(), "uploads");
