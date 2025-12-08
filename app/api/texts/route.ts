@@ -7,6 +7,7 @@ import { z } from "zod";
 const textSchema = z.object({
   content: z.string(),
   title: z.string().optional(),
+  customSlug: z.string().optional(),
   language: z.string().default("plaintext"),
   password: z.string().optional(),
   expiresAt: z.string().optional(),
@@ -15,9 +16,24 @@ const textSchema = z.object({
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { content, title, language, password, expiresAt } = textSchema.parse(body);
+    const { content, title, customSlug, language, password, expiresAt } = textSchema.parse(body);
 
-    const shortCode = nanoid(8);
+    // Use custom slug if provided, otherwise generate random code
+    const shortCode = customSlug || nanoid(8);
+    
+    // Check if custom slug already exists
+    if (customSlug) {
+      const existing = await prisma.text.findUnique({
+        where: { shortCode: customSlug },
+      });
+      if (existing) {
+        return NextResponse.json(
+          { success: false, error: "Custom link already exists" },
+          { status: 400 }
+        );
+      }
+    }
+
     const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
 
     const text = await prisma.text.create({
