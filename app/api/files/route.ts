@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { nanoid } from "nanoid";
 import bcrypt from "bcryptjs";
-import { writeFile } from "fs/promises";
+import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 
 export async function POST(req: NextRequest) {
@@ -25,8 +25,11 @@ export async function POST(req: NextRequest) {
     const shortCode = nanoid(8);
     const fileExtension = path.extname(file.name);
     const fileName = `${shortCode}${fileExtension}`;
-    const filePath = path.join(process.cwd(), "uploads", fileName);
+    const uploadsDir = path.join(process.cwd(), "uploads");
+    const filePath = path.join(uploadsDir, fileName);
 
+    // Ensure uploads directory exists
+    await mkdir(uploadsDir, { recursive: true });
     await writeFile(filePath, buffer);
 
     const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
