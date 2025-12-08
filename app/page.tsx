@@ -103,29 +103,29 @@ export default function HomePage() {
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-8 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-indigo-400 dark:hover:border-indigo-500 transition-all duration-200 hover:shadow-xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900">
+              <Link href="/shorten" className="p-8 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-indigo-400 dark:hover:border-indigo-500 transition-all duration-200 hover:shadow-xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 cursor-pointer">
                 <div className="text-5xl mb-4">🔗</div>
                 <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3">LinkShare</h4>
                 <p className="text-gray-600 dark:text-gray-300">
                   Create shareable links for any URL with custom expiration and password protection
                 </p>
-              </div>
+              </Link>
               
-              <div className="p-8 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-purple-400 dark:hover:border-purple-500 transition-all duration-200 hover:shadow-xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900">
+              <Link href="/snippet" className="p-8 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-purple-400 dark:hover:border-purple-500 transition-all duration-200 hover:shadow-xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 cursor-pointer">
                 <div className="text-5xl mb-4">📝</div>
                 <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3">PasteShare</h4>
                 <p className="text-gray-600 dark:text-gray-300">
                   Create and share your code snippets with syntax highlighting
                 </p>
-              </div>
+              </Link>
               
-              <div className="p-8 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-indigo-400 dark:hover:border-indigo-500 transition-all duration-200 hover:shadow-xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900">
+              <Link href="/upload" className="p-8 border-2 border-gray-200 dark:border-gray-700 rounded-xl hover:border-indigo-400 dark:hover:border-indigo-500 transition-all duration-200 hover:shadow-xl bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 cursor-pointer">
                 <div className="text-5xl mb-4">📁</div>
                 <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3">FileShare</h4>
                 <p className="text-gray-600 dark:text-gray-300">
                   Upload your files and share them easily with download tracking
                 </p>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
