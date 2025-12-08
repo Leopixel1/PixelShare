@@ -330,12 +330,3 @@ export default function SnippetPage() {
     </div>
   );
 }
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </main>
-    </div>
-  );
-}
