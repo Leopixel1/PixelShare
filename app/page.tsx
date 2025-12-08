@@ -19,9 +19,17 @@ export default function HomePage() {
                 PixelShare
               </h1>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               {session ? (
                 <>
+                  {(session.user as any)?.isAdmin && (
+                    <Link
+                      href="/admin"
+                      className="px-4 py-2 rounded-lg font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors border border-indigo-200 dark:border-indigo-800"
+                    >
+                      Admin Dashboard
+                    </Link>
+                  )}
                   <span className="text-sm text-gray-700 dark:text-gray-300">
                     {session.user?.email}
                   </span>
@@ -33,12 +41,20 @@ export default function HomePage() {
                   </button>
                 </>
               ) : (
-                <button
-                  onClick={() => signIn()}
-                  className="px-4 py-2 rounded-lg font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-200"
-                >
-                  Sign In
-                </button>
+                <>
+                  <Link
+                    href="/auth/register"
+                    className="px-4 py-2 rounded-lg font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    Register
+                  </Link>
+                  <Link
+                    href="/auth/signin"
+                    className="px-4 py-2 rounded-lg font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-200"
+                  >
+                    Sign In
+                  </Link>
+                </>
               )}
             </div>
           </div>
