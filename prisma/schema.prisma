@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String
+  createdAt DateTime @default(now())
+  
+  urls      Url[]
+  texts     Text[]
+  files     File[]
+}
+
+model Url {
+  id          String    @id @default(uuid())
+  shortCode   String    @unique
+  originalUrl String
+  title       String?
+  password    String?
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  clicks      Int       @default(0)
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id])
+}
+
+model Text {
+  id          String    @id @default(uuid())
+  shortCode   String    @unique
+  title       String?
+  content     String
+  language    String    @default("plaintext")
+  password    String?
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  views       Int       @default(0)
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id])
+}
+
+model File {
+  id          String    @id @default(uuid())
+  shortCode   String    @unique
+  originalName String
+  fileName    String
+  fileSize    Int
+  mimeType    String
+  password    String?
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  downloads   Int       @default(0)
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id])
+}
