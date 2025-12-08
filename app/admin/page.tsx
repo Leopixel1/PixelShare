@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { formatFileSize } from "@/lib/utils/format";
 
 interface AdminStats {
   userCount: number;
@@ -80,7 +81,7 @@ export default function AdminDashboard() {
       return;
     }
 
-    if (status === "authenticated" && !(session.user as any)?.isAdmin) {
+    if (status === "authenticated" && !session.user?.isAdmin) {
       router.push("/");
       return;
     }
@@ -175,12 +176,6 @@ export default function AdminDashboard() {
     } catch (err) {
       alert(`An error occurred while deleting the ${type}`);
     }
-  };
-
-  const formatFileSize = (bytes: number) => {
-    if (bytes < 1024) return bytes + " B";
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
   };
 
   const filteredUsers = users.filter((user) =>

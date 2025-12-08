@@ -10,7 +10,7 @@ export async function PATCH(
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session || !(session.user as any)?.isAdmin) {
+    if (!session || !session.user?.isAdmin) {
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
         { status: 401 }
@@ -21,7 +21,7 @@ export async function PATCH(
     const { isAdmin } = await req.json();
 
     // Prevent removing admin status from yourself
-    if (userId === (session.user as any).id && isAdmin === false) {
+    if (userId === session.user.id && isAdmin === false) {
       return NextResponse.json(
         { success: false, error: "Cannot remove admin status from yourself" },
         { status: 400 }
@@ -53,7 +53,7 @@ export async function DELETE(
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session || !(session.user as any)?.isAdmin) {
+    if (!session || !session.user?.isAdmin) {
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
         { status: 401 }
@@ -63,7 +63,7 @@ export async function DELETE(
     const { userId } = params;
 
     // Prevent deleting yourself
-    if (userId === (session.user as any).id) {
+    if (userId === session.user.id) {
       return NextResponse.json(
         { success: false, error: "Cannot delete yourself" },
         { status: 400 }

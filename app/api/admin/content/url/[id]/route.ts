@@ -10,7 +10,7 @@ export async function DELETE(
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session || !(session.user as any)?.isAdmin) {
+    if (!session || !session.user?.isAdmin) {
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
         { status: 401 }

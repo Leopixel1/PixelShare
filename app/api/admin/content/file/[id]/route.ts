@@ -12,7 +12,7 @@ export async function DELETE(
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session || !(session.user as any)?.isAdmin) {
+    if (!session || !session.user?.isAdmin) {
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
         { status: 401 }
@@ -41,7 +41,15 @@ export async function DELETE(
     // Delete physical file
     try {
       const uploadsDir = path.join(process.cwd(), "uploads");
-      const filePath = path.join(uploadsDir, file.fileName);
+      // Validate filename to prevent path traversal
+      const safeFileName = path.basename(file.fileName);
+      const filePath = path.join(uploadsDir, safeFileName);
+      
+      // Ensure the resolved path is still within uploads directory
+      if (!filePath.startsWith(uploadsDir)) {
+        throw new Error("Invalid file path");
+      }
+      
       await unlink(filePath);
     } catch (fileError) {
       console.error("Error deleting physical file:", fileError);
