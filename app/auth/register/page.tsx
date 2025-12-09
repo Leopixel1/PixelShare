@@ -46,17 +46,23 @@ export default function RegisterPage() {
       const data = await response.json();
 
       if (data.success) {
-        // Automatically sign in after registration
-        const result = await signIn("credentials", {
-          email: formData.email,
-          password: formData.password,
-          redirect: false,
-        });
-
-        if (result?.ok) {
-          router.push("/");
+        if (data.requiresApproval) {
+          // Show approval message and redirect to signin
+          alert("Registration successful! Your account is pending approval by an administrator. You will be able to sign in once your account is approved.");
+          router.push("/auth/signin");
         } else {
-          setError("Registration successful, but login failed. Please sign in manually.");
+          // Automatically sign in after registration
+          const result = await signIn("credentials", {
+            email: formData.email,
+            password: formData.password,
+            redirect: false,
+          });
+
+          if (result?.ok) {
+            router.push("/");
+          } else {
+            setError("Registration successful, but login failed. Please sign in manually.");
+          }
         }
       } else {
         setError(data.error || "Failed to register");

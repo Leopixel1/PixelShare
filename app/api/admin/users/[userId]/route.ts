@@ -18,7 +18,8 @@ export async function PATCH(
     }
 
     const { userId } = params;
-    const { isAdmin } = await req.json();
+    const body = await req.json();
+    const { isAdmin, isApproved } = body;
 
     // Prevent removing admin status from yourself
     if (userId === session.user.id && isAdmin === false) {
@@ -28,9 +29,17 @@ export async function PATCH(
       );
     }
 
+    const updateData: any = {};
+    if (typeof isAdmin === 'boolean') {
+      updateData.isAdmin = isAdmin;
+    }
+    if (typeof isApproved === 'boolean') {
+      updateData.isApproved = isApproved;
+    }
+
     const user = await prisma.user.update({
       where: { id: userId },
-      data: { isAdmin },
+      data: updateData,
     });
 
     return NextResponse.json({
