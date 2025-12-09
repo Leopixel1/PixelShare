@@ -36,4 +36,48 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  
+  /* Theme-aware gradient backgrounds */
+  .bg-gradient-page {
+    background: linear-gradient(to bottom right, var(--gradient-from), var(--gradient-via), var(--gradient-to));
+  }
+  
+  /* Dark mode gradient backgrounds */
+  @media (prefers-color-scheme: dark) {
+    .bg-gradient-page {
+      background: linear-gradient(to bottom right, var(--gradient-from-dark), var(--gradient-via-dark), var(--gradient-to-dark));
+    }
+  }
+  
+  /* Theme-aware text gradients */
+  .text-gradient {
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Theme-aware button gradients */
+  .bg-gradient-primary {
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+  }
+  
+  .hover\:bg-gradient-primary:hover {
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    filter: brightness(0.9);
+  }
+  
+  /* Theme-aware logo background */
+  .bg-gradient-logo {
+    background: linear-gradient(to bottom right, var(--primary), var(--secondary));
+  }
+  
+  /* Theme-aware hover effects */
+  .hover-border-primary:hover {
+    border-color: var(--primary);
+  }
+  
+  .hover-border-secondary:hover {
+    border-color: var(--secondary);
+  }
 }
