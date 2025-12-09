@@ -55,7 +55,7 @@ body {
     background: linear-gradient(to right, var(--primary), var(--secondary));
   }
   
-  .hover\:bg-gradient-primary:hover {
+  .bg-gradient-primary-hover:hover {
     background: linear-gradient(to right, var(--primary), var(--secondary));
     filter: brightness(0.9);
   }
