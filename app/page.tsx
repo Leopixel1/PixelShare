@@ -77,22 +77,19 @@ export default function HomePage() {
         <div className="flex justify-center mb-10 space-x-3">
           <Link 
             href="/shorten"
-            className="px-8 py-3 rounded-xl font-semibold transition-all duration-200 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-lg border border-gray-200 dark:border-gray-700"
-            style={{ 
-              '--tw-shadow-color': 'var(--primary)' 
-            } as React.CSSProperties}
+            className="px-8 py-3 rounded-xl font-semibold transition-all duration-200 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700"
           >
             🔗 LinkShare
           </Link>
           <Link 
             href="/snippet"
-            className="px-8 py-3 rounded-xl font-semibold transition-all duration-200 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-lg border border-gray-200 dark:border-gray-700"
+            className="px-8 py-3 rounded-xl font-semibold transition-all duration-200 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700"
           >
             📝 PasteShare
           </Link>
           <Link 
             href="/upload"
-            className="px-8 py-3 rounded-xl font-semibold transition-all duration-200 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:shadow-lg border border-gray-200 dark:border-gray-700"
+            className="px-8 py-3 rounded-xl font-semibold transition-all duration-200 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700"
           >
             📁 FileShare
           </Link>

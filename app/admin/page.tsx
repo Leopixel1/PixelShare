@@ -838,14 +838,14 @@ export default function AdminDashboard() {
                             onClick={() => setSettings({ ...settings, theme: theme.name })}
                             className={`p-4 rounded-xl border-2 transition-all duration-200 ${
                               settings.theme === theme.name
-                                ? "bg-opacity-20 shadow-lg"
+                                ? "shadow-lg"
                                 : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
                             }`}
                             style={
                               settings.theme === theme.name
                                 ? {
                                     borderColor: theme.colors.primary,
-                                    backgroundColor: theme.colors.primary + '20',
+                                    backgroundColor: `${theme.colors.primary}20`,
                                   }
                                 : {}
                             }
@@ -869,7 +869,7 @@ export default function AdminDashboard() {
                                 {theme.label}
                               </span>
                               {settings.theme === theme.name && (
-                                <span className="text-xs font-semibold px-2 py-1 rounded-full" style={{ backgroundColor: theme.colors.primary, color: 'white' }}>
+                                <span className="text-xs font-semibold px-2 py-1 rounded-full text-white" style={{ backgroundColor: theme.colors.primary }}>
                                   Active
                                 </span>
                               )}
