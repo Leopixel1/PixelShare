@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { formatFileSize } from "@/lib/utils/format";
+import { themes } from "@/lib/themes";
 
 interface AdminStats {
   userCount: number;
@@ -51,6 +52,7 @@ interface Settings {
   registeredFilesPerDay: number;
   registeredMaxFileSize: number;
   requireApproval: boolean;
+  theme: string;
 }
 
 interface RecentUrl {
@@ -259,8 +261,10 @@ export default function AdminDashboard() {
       const data = await response.json();
 
       if (data.success) {
-        alert("Settings saved successfully!");
+        alert("Settings saved successfully! The page will reload to apply the theme.");
         fetchSettings();
+        // Reload the page to apply the new theme
+        window.location.reload();
       } else {
         alert(data.error || "Failed to save settings");
       }
@@ -298,9 +302,9 @@ export default function AdminDashboard() {
 
   if (loading || status === "loading") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-page flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-t-transparent rounded-full animate-spin mx-auto mb-4" style={{ borderColor: 'var(--primary)', borderTopColor: 'transparent' }}></div>
           <p className="text-gray-600 dark:text-gray-300">Loading...</p>
         </div>
       </div>
@@ -308,15 +312,15 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-900">
+    <div className="min-h-screen bg-gradient-page">
       <nav className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg shadow-lg border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <Link href="/" className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 bg-gradient-logo rounded-lg flex items-center justify-center shadow-lg">
                 <span className="text-white text-xl font-bold">P</span>
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold text-gradient">
                 PixelShare Admin
               </span>
             </Link>
@@ -414,9 +418,10 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab("users")}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   activeTab === "users"
-                    ? "bg-indigo-600 text-white"
+                    ? "text-white"
                     : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 }`}
+                style={activeTab === "users" ? { background: 'var(--primary)' } : {}}
               >
                 Users ({users.length})
               </button>
@@ -424,9 +429,10 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab("pending")}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   activeTab === "pending"
-                    ? "bg-indigo-600 text-white"
+                    ? "text-white"
                     : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 }`}
+                style={activeTab === "pending" ? { background: 'var(--primary)' } : {}}
               >
                 Pending ({pendingUsers.length})
               </button>
@@ -434,9 +440,10 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab("urls")}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   activeTab === "urls"
-                    ? "bg-indigo-600 text-white"
+                    ? "text-white"
                     : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 }`}
+                style={activeTab === "urls" ? { background: 'var(--primary)' } : {}}
               >
                 URLs ({recentUrls.length})
               </button>
@@ -444,9 +451,10 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab("texts")}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   activeTab === "texts"
-                    ? "bg-indigo-600 text-white"
+                    ? "text-white"
                     : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 }`}
+                style={activeTab === "texts" ? { background: 'var(--primary)' } : {}}
               >
                 Texts ({recentTexts.length})
               </button>
@@ -454,9 +462,10 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab("files")}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   activeTab === "files"
-                    ? "bg-indigo-600 text-white"
+                    ? "text-white"
                     : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 }`}
+                style={activeTab === "files" ? { background: 'var(--primary)' } : {}}
               >
                 Files ({recentFiles.length})
               </button>
@@ -464,9 +473,10 @@ export default function AdminDashboard() {
                 onClick={() => setActiveTab("settings")}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   activeTab === "settings"
-                    ? "bg-indigo-600 text-white"
+                    ? "text-white"
                     : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                 }`}
+                style={activeTab === "settings" ? { background: 'var(--primary)' } : {}}
               >
                 Settings
               </button>
@@ -813,6 +823,67 @@ export default function AdminDashboard() {
 
             {activeTab === "settings" && settings && (
               <div className="p-8 space-y-8">
+                {/* Theme Settings */}
+                <div className="bg-gray-50 dark:bg-gray-700/50 p-6 rounded-xl">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Theme Settings</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                        Select Site Theme
+                      </label>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {Object.values(themes).map((theme) => (
+                          <button
+                            key={theme.name}
+                            onClick={() => setSettings({ ...settings, theme: theme.name })}
+                            className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+                              settings.theme === theme.name
+                                ? "shadow-lg"
+                                : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
+                            }`}
+                            style={
+                              settings.theme === theme.name
+                                ? {
+                                    borderColor: theme.colors.primary,
+                                    backgroundColor: `${theme.colors.primary}20`,
+                                  }
+                                : {}
+                            }
+                          >
+                            <div className="flex flex-col items-center space-y-2">
+                              <div className="flex space-x-1">
+                                <div
+                                  className="w-8 h-8 rounded-full shadow-sm border-2 border-white dark:border-gray-800"
+                                  style={{ backgroundColor: theme.colors.primary }}
+                                />
+                                <div
+                                  className="w-8 h-8 rounded-full shadow-sm border-2 border-white dark:border-gray-800"
+                                  style={{ backgroundColor: theme.colors.secondary }}
+                                />
+                                <div
+                                  className="w-8 h-8 rounded-full shadow-sm border-2 border-white dark:border-gray-800"
+                                  style={{ backgroundColor: theme.colors.accent }}
+                                />
+                              </div>
+                              <span className="text-sm font-medium text-gray-900 dark:text-white">
+                                {theme.label}
+                              </span>
+                              {settings.theme === theme.name && (
+                                <span className="text-xs font-semibold px-2 py-1 rounded-full text-white" style={{ backgroundColor: theme.colors.primary }}>
+                                  Active
+                                </span>
+                              )}
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                      <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                        The selected theme will be applied to the entire site for all users.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Registration Settings */}
                 <div className="bg-gray-50 dark:bg-gray-700/50 p-6 rounded-xl">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Registration Settings</h3>
@@ -977,7 +1048,7 @@ export default function AdminDashboard() {
                 <div className="flex justify-end">
                   <button
                     onClick={handleSaveSettings}
-                    className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="px-6 py-3 bg-gradient-primary text-white rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-200 hover:brightness-90"
                   >
                     Save Settings
                   </button>

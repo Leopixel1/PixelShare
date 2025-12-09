@@ -81,4 +81,6 @@ model Settings {
   registeredMaxFileSize     Int     @default(104857600) // 100MB in bytes
   // Registration settings
   requireApproval           Boolean @default(false)
+  // Theme settings
+  theme                     String  @default("default")
 }
