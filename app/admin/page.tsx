@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { formatFileSize } from "@/lib/utils/format";
+import { themes } from "@/lib/themes";
 
 interface AdminStats {
   userCount: number;
@@ -51,6 +52,7 @@ interface Settings {
   registeredFilesPerDay: number;
   registeredMaxFileSize: number;
   requireApproval: boolean;
+  theme: string;
 }
 
 interface RecentUrl {
@@ -259,8 +261,10 @@ export default function AdminDashboard() {
       const data = await response.json();
 
       if (data.success) {
-        alert("Settings saved successfully!");
+        alert("Settings saved successfully! The page will reload to apply the theme.");
         fetchSettings();
+        // Reload the page to apply the new theme
+        window.location.reload();
       } else {
         alert(data.error || "Failed to save settings");
       }
@@ -813,6 +817,54 @@ export default function AdminDashboard() {
 
             {activeTab === "settings" && settings && (
               <div className="p-8 space-y-8">
+                {/* Theme Settings */}
+                <div className="bg-gray-50 dark:bg-gray-700/50 p-6 rounded-xl">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Theme Settings</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                        Select Site Theme
+                      </label>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {Object.values(themes).map((theme) => (
+                          <button
+                            key={theme.name}
+                            onClick={() => setSettings({ ...settings, theme: theme.name })}
+                            className={`p-4 rounded-xl border-2 transition-all duration-200 ${
+                              settings.theme === theme.name
+                                ? "border-indigo-600 dark:border-indigo-400 bg-indigo-50 dark:bg-indigo-900/20"
+                                : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
+                            }`}
+                          >
+                            <div className="flex flex-col items-center space-y-2">
+                              <div className="flex space-x-1">
+                                <div
+                                  className="w-6 h-6 rounded-full shadow-sm"
+                                  style={{ backgroundColor: theme.colors.primary }}
+                                />
+                                <div
+                                  className="w-6 h-6 rounded-full shadow-sm"
+                                  style={{ backgroundColor: theme.colors.secondary }}
+                                />
+                                <div
+                                  className="w-6 h-6 rounded-full shadow-sm"
+                                  style={{ backgroundColor: theme.colors.accent }}
+                                />
+                              </div>
+                              <span className="text-sm font-medium text-gray-900 dark:text-white">
+                                {theme.label}
+                              </span>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                      <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                        The selected theme will be applied to the entire site for all users.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Registration Settings */}
                 <div className="bg-gray-50 dark:bg-gray-700/50 p-6 rounded-xl">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Registration Settings</h3>
