@@ -33,11 +33,17 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
+        // Check if user is approved or is an admin (admins are always approved)
+        if (!user.isApproved && !user.isAdmin) {
+          throw new Error("Your account is pending approval. Please wait for an administrator to approve your registration.");
+        }
+
         return {
           id: user.id,
           email: user.email,
           name: user.name,
           isAdmin: user.isAdmin,
+          isApproved: user.isApproved,
         };
       }
     })
@@ -46,14 +52,16 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.isAdmin = (user as any).isAdmin;
+        token.isAdmin = user.isAdmin;
+        token.isApproved = user.isApproved;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = token.id;
-        (session.user as any).isAdmin = token.isAdmin;
+        session.user.id = token.id as string;
+        session.user.isAdmin = token.isAdmin as boolean;
+        session.user.isApproved = token.isApproved as boolean;
       }
       return session;
     },

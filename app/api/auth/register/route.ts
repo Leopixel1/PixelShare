@@ -29,6 +29,10 @@ export async function POST(req: NextRequest) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Get settings to check if approval is required
+    let settings = await prisma.settings.findFirst();
+    const requireApproval = settings?.requireApproval ?? false;
+
     // Create user
     const user = await prisma.user.create({
       data: {
@@ -36,11 +40,13 @@ export async function POST(req: NextRequest) {
         name,
         password: hashedPassword,
         isAdmin: false,
+        isApproved: !requireApproval, // Auto-approve if approval is not required
       },
     });
 
     return NextResponse.json({
       success: true,
+      requiresApproval: requireApproval,
       user: {
         id: user.id,
         email: user.email,

@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String
-  isAdmin   Boolean  @default(false)
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid())
+  email      String   @unique
+  name       String?
+  password   String
+  isAdmin    Boolean  @default(false)
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
   
-  urls      Url[]
-  texts     Text[]
-  files     File[]
+  urls       Url[]
+  texts      Text[]
+  files      File[]
 }
 
 model Url {
@@ -30,7 +31,7 @@ model Url {
   createdAt   DateTime  @default(now())
   clicks      Int       @default(0)
   userId      String?
-  user        User?     @relation(fields: [userId], references: [id])
+  user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Text {
@@ -44,7 +45,7 @@ model Text {
   createdAt   DateTime  @default(now())
   views       Int       @default(0)
   userId      String?
-  user        User?     @relation(fields: [userId], references: [id])
+  user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model File {
@@ -59,5 +60,25 @@ model File {
   createdAt   DateTime  @default(now())
   downloads   Int       @default(0)
   userId      String?
-  user        User?     @relation(fields: [userId], references: [id])
+  user        User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Settings {
+  id                        String  @id @default(uuid())
+  // Anonymous user permissions
+  allowAnonymousUrls        Boolean @default(true)
+  allowAnonymousTexts       Boolean @default(true)
+  allowAnonymousFiles       Boolean @default(true)
+  // Anonymous user limits
+  anonymousUrlsPerDay       Int     @default(10)
+  anonymousTextsPerDay      Int     @default(10)
+  anonymousFilesPerDay      Int     @default(5)
+  anonymousMaxFileSize      Int     @default(10485760) // 10MB in bytes
+  // Registered user limits
+  registeredUrlsPerDay      Int     @default(100)
+  registeredTextsPerDay     Int     @default(100)
+  registeredFilesPerDay     Int     @default(50)
+  registeredMaxFileSize     Int     @default(104857600) // 100MB in bytes
+  // Registration settings
+  requireApproval           Boolean @default(false)
 }

@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
-    if (!session || !(session.user as any)?.isAdmin) {
+    if (!session || !session.user?.isAdmin) {
       return NextResponse.json(
         { success: false, error: "Unauthorized" },
         { status: 401 }
@@ -15,12 +15,13 @@ export async function GET(req: NextRequest) {
     }
 
     // Get statistics
-    const [userCount, urlCount, textCount, fileCount, users, recentUrls, recentTexts, recentFiles] = await Promise.all([
+    const [userCount, urlCount, textCount, fileCount, users, pendingUsers, recentUrls, recentTexts, recentFiles] = await Promise.all([
       prisma.user.count(),
       prisma.url.count(),
       prisma.text.count(),
       prisma.file.count(),
       prisma.user.findMany({
+        where: { isApproved: true },
         orderBy: { createdAt: "desc" },
         take: 10,
         select: {
@@ -28,6 +29,7 @@ export async function GET(req: NextRequest) {
           email: true,
           name: true,
           isAdmin: true,
+          isApproved: true,
           createdAt: true,
           _count: {
             select: {
@@ -36,6 +38,18 @@ export async function GET(req: NextRequest) {
               files: true,
             },
           },
+        },
+      }),
+      prisma.user.findMany({
+        where: { isApproved: false },
+        orderBy: { createdAt: "desc" },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          isAdmin: true,
+          isApproved: true,
+          createdAt: true,
         },
       }),
       prisma.url.findMany({
@@ -98,8 +112,10 @@ export async function GET(req: NextRequest) {
         urlCount,
         textCount,
         fileCount,
+        pendingUsersCount: pendingUsers.length,
       },
       users,
+      pendingUsers,
       recentUrls,
       recentTexts,
       recentFiles,
