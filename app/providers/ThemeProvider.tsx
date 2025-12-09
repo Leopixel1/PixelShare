@@ -42,22 +42,38 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Apply theme colors as CSS variables
     const root = document.documentElement;
     
-    root.style.setProperty("--primary", theme.colors.primary);
-    root.style.setProperty("--primary-dark", theme.colors.primaryDark);
-    root.style.setProperty("--secondary", theme.colors.secondary);
-    root.style.setProperty("--secondary-dark", theme.colors.secondaryDark);
-    root.style.setProperty("--accent", theme.colors.accent);
-    root.style.setProperty("--accent-dark", theme.colors.accentDark);
-    root.style.setProperty("--background", theme.colors.background);
-    root.style.setProperty("--background-dark", theme.colors.backgroundDark);
-    root.style.setProperty("--foreground", theme.colors.foreground);
-    root.style.setProperty("--foreground-dark", theme.colors.foregroundDark);
-    root.style.setProperty("--gradient-from", theme.colors.gradientFrom);
-    root.style.setProperty("--gradient-via", theme.colors.gradientVia);
-    root.style.setProperty("--gradient-to", theme.colors.gradientTo);
-    root.style.setProperty("--gradient-from-dark", theme.colors.gradientFromDark);
-    root.style.setProperty("--gradient-via-dark", theme.colors.gradientViaDark);
-    root.style.setProperty("--gradient-to-dark", theme.colors.gradientToDark);
+    // Check if user prefers dark mode
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Set light mode variables (always set for SSR and light mode)
+    root.style.setProperty("--primary", isDarkMode ? theme.colors.primaryDark : theme.colors.primary);
+    root.style.setProperty("--secondary", isDarkMode ? theme.colors.secondaryDark : theme.colors.secondary);
+    root.style.setProperty("--accent", isDarkMode ? theme.colors.accentDark : theme.colors.accent);
+    root.style.setProperty("--background", isDarkMode ? theme.colors.backgroundDark : theme.colors.background);
+    root.style.setProperty("--foreground", isDarkMode ? theme.colors.foregroundDark : theme.colors.foreground);
+    root.style.setProperty("--gradient-from", isDarkMode ? theme.colors.gradientFromDark : theme.colors.gradientFrom);
+    root.style.setProperty("--gradient-via", isDarkMode ? theme.colors.gradientViaDark : theme.colors.gradientVia);
+    root.style.setProperty("--gradient-to", isDarkMode ? theme.colors.gradientToDark : theme.colors.gradientTo);
+    
+    // Listen for changes in color scheme preference
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      const isDark = e.matches;
+      root.style.setProperty("--primary", isDark ? theme.colors.primaryDark : theme.colors.primary);
+      root.style.setProperty("--secondary", isDark ? theme.colors.secondaryDark : theme.colors.secondary);
+      root.style.setProperty("--accent", isDark ? theme.colors.accentDark : theme.colors.accent);
+      root.style.setProperty("--background", isDark ? theme.colors.backgroundDark : theme.colors.background);
+      root.style.setProperty("--foreground", isDark ? theme.colors.foregroundDark : theme.colors.foreground);
+      root.style.setProperty("--gradient-from", isDark ? theme.colors.gradientFromDark : theme.colors.gradientFrom);
+      root.style.setProperty("--gradient-via", isDark ? theme.colors.gradientViaDark : theme.colors.gradientVia);
+      root.style.setProperty("--gradient-to", isDark ? theme.colors.gradientToDark : theme.colors.gradientTo);
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
   }, [theme]);
 
   return (
