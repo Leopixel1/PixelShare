@@ -273,7 +273,11 @@ export default function ShortenPage() {
                   className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-white font-mono text-sm"
                 />
                 <button
-                  onClick={() => navigator.clipboard.writeText(result.shortUrl)}
+                  onClick={() => {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                      navigator.clipboard.writeText(result.shortUrl);
+                    }
+                  }}
                   className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
                 >
                   Copy

@@ -298,7 +298,11 @@ export default function SnippetPage() {
                   className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 dark:text-white"
                 />
                 <button
-                  onClick={() => navigator.clipboard.writeText(result.shortUrl)}
+                  onClick={() => {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                      navigator.clipboard.writeText(result.shortUrl);
+                    }
+                  }}
                   className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
                 >
                   Kopieren
