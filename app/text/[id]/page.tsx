@@ -58,7 +58,7 @@ export default function TextViewPage() {
   };
 
   const copyToClipboard = () => {
-    if (text) {
+    if (text && navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text.content);
     }
   };
